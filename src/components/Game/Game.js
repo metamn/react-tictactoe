@@ -1,29 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import Board from './../Board';
 
 /**
- * The container
- * @type {[type]}
+ * The container style
  */
-const Container = styled.section``;
+const Container = styled.section`
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+`;
 
 /**
- * The container title
- * @type {[type]}
+ * The container title style
  */
 const ContainerTitle = styled.h1``;
 
 
 /**
- * [Game description]
- * @extends React
+ * The main component
  */
 export default class Game extends React.Component {
 	render() {
 		return (
 			<Container>
 				<ContainerTitle>Tic Tac Toe</ContainerTitle>
+				<Board />
 			</Container>
 		);
 	}
