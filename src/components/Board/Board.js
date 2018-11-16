@@ -62,28 +62,34 @@ const Button = styled.button`
 }
 
 /**
+ * Defines which lines are a winning combination.
+ */
+const winningLines = [
+	[0, 1, 2],
+	[3, 4, 5],
+	[6, 7, 8],
+	[0, 3, 6],
+	[1, 4, 7],
+	[2, 5, 8],
+	[0, 4, 8],
+	[2, 4, 6],
+];
+
+/**
  * Checks if there is a winner.
  *
  * @param  {array}  squares The squares.
- * @return {string}         The ID of the winner, or empty
+ * @return {object}         The ID of the winner, and the winning line
  */
 function hasWinner(squares) {
-	const winningLines = [
-		[0, 1, 2],
-		[3, 4, 5],
-		[6, 7, 8],
-		[0, 3, 6],
-		[1, 4, 7],
-		[2, 5, 8],
-		[0, 4, 8],
-		[2, 4, 6],
-	];
-
 	for (let i = 0; i < winningLines.length; i++) {
 		const [a, b, c] = winningLines[i];
 
 		if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-	  		return squares[a];
+	  		return {
+				winnerID: squares[a],
+				winningSquares: winningLines[i],
+			};
 		}
 	}
 
@@ -100,6 +106,7 @@ export default class Board extends React.Component {
 
 		this.state = {
 			squares: Array(9).fill(null),
+			winningSquares: Array(3).fill(null),
 			turn: 'X',
 		};
 	}
@@ -111,9 +118,9 @@ export default class Board extends React.Component {
 	 */
 	handleClick(i) {
 		// Do nothing if there is a winner
-		if (hasWinner(this.state.squares) != '') return;
-		
-		// Do nothing if already clicked.
+		if (hasWinner(this.state.squares)) return;
+
+		// Do nothing if square is already clicked.
 		if (this.state.squares[i] != null) return;
 
 		// Implementing immutability
@@ -122,9 +129,17 @@ export default class Board extends React.Component {
 		// Mark the cell.
 		squares[i] = this.state.turn;
 
+		// Check if there is a winner
+		let winner = hasWinner(squares);
+		let winningSquares = this.state.winningSquares.slice();
+		if (winner) {
+			winningSquares = winner.winningSquares;
+		}
+
 		// Set state
 		this.setState({
 			squares: squares,
+			winningSquares: winningSquares,
 			turn: (this.state.turn == 'X') ? 'O' : 'X',
 		});
 	}
@@ -140,6 +155,7 @@ export default class Board extends React.Component {
 			<Square
 				value={this.state.squares[i]}
 				onClick={() => this.handleClick(i)}
+				status={(this.state.winningSquares.includes(i))}
 			/>
 		);
 	}
@@ -152,8 +168,8 @@ export default class Board extends React.Component {
 	displayTitle() {
 		let winner = hasWinner(this.state.squares);
 
-		if ( winner != '') {
-			return winner + ' wins!';
+		if (winner) {
+			return winner.winnerID + ' wins!';
 		}
 
 		if (this.state.squares.filter(item => item == null).length == 0) {
@@ -164,11 +180,12 @@ export default class Board extends React.Component {
 	}
 
 	/**
-	 * Restarts the game
+	 * Restarts the game.
 	 */
 	restart() {
 		this.setState({
 			squares: Array(9).fill(null),
+			winningSquares: Array(3).fill(null),
 			turn: 'X',
 		});
 	}

@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
 const Button = styled.button`
-	background: #fff;
-	border: 1px solid;
+	background: ${props => (props.status) ? '#000' : '#fff'};
+	color: ${props => (props.status) ? '#fff' : '#000'};
+	border: 1px solid #000;
 	border-right: 0;
 	border-bottom: 0;
 	padding: 1.25em;
@@ -29,7 +30,7 @@ export default class Square extends React.Component {
 
 	render() {
 		return (
-			<Button onClick={this.props.onClick}>
+			<Button status={this.props.status} onClick={this.props.onClick}>
 				{this.display(this.props.value)}
 			</Button>
 		)
