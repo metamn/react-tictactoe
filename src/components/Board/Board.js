@@ -59,7 +59,36 @@ const Button = styled.button`
  	}
 
  	return ret;
- }
+}
+
+/**
+ * Checks if there is a winner.
+ *
+ * @param  {array}  squares The squares.
+ * @return {string}         The ID of the winner, or empty
+ */
+function hasWinner(squares) {
+	const winningLines = [
+		[0, 1, 2],
+		[3, 4, 5],
+		[6, 7, 8],
+		[0, 3, 6],
+		[1, 4, 7],
+		[2, 5, 8],
+		[0, 4, 8],
+		[2, 4, 6],
+	];
+
+	for (let i = 0; i < winningLines.length; i++) {
+		const [a, b, c] = winningLines[i];
+
+		if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+	  		return squares[a];
+		}
+	}
+
+	return '';
+}
 
 
 /**
@@ -81,6 +110,9 @@ export default class Board extends React.Component {
 	 * @param  {integer} i The ID of the square
 	 */
 	handleClick(i) {
+		// Do nothing if there is a winner
+		if (hasWinner(this.state.squares) != '') return;
+		
 		// Do nothing if already clicked.
 		if (this.state.squares[i] != null) return;
 
@@ -118,6 +150,12 @@ export default class Board extends React.Component {
 	 * @return {string} The title
 	 */
 	displayTitle() {
+		let winner = hasWinner(this.state.squares);
+
+		if ( winner != '') {
+			return winner + ' wins!';
+		}
+
 		if (this.state.squares.filter(item => item == null).length == 0) {
 			return 'No more moves';
 		}
