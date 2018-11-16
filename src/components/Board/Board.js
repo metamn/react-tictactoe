@@ -46,13 +46,32 @@ export default class Board extends React.Component {
 
 		this.state = {
 			squares: Array(9).fill(null),
+			turn: 'X',
 		};
+	}
+
+	handleClick(i) {
+		// Do nothing if already clicked.
+		if (this.state.squares[i] != null) return;
+
+		// Implementing immutability
+		const squares = this.state.squares.slice();
+
+		// Mark the cell.
+		squares[i] = (this.state.turn == 'X') ? 'O' : 'X';
+
+		// Set state
+		this.setState({
+			squares: squares,
+			turn: (this.state.turn == 'X') ? 'O' : 'X',
+		});
 	}
 
 	renderSquare(i) {
 		return (
 			<Square
-				value={i}
+				value={this.state.squares[i]}
+				onClick={() => this.handleClick(i)}
 			/>
 		);
 	}
