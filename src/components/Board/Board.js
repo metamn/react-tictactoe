@@ -107,6 +107,7 @@ export default class Board extends React.Component {
 		this.state = {
 			squares: Array(9).fill(null),
 			winningSquares: Array(3).fill(null),
+			winnerID: null,
 			turn: 'X',
 		};
 	}
@@ -123,23 +124,28 @@ export default class Board extends React.Component {
 		// Do nothing if square is already clicked.
 		if (this.state.squares[i] != null) return;
 
+		// Handle the current click
+		//
 		// Implementing immutability
 		const squares = this.state.squares.slice();
+		let winningSquares = this.state.winningSquares.slice();
+		let winnerID = this.state.winnerID;
 
 		// Mark the cell.
 		squares[i] = this.state.turn;
 
-		// Check if there is a winner
+		// Check if there is a winner after this current move
 		let winner = hasWinner(squares);
-		let winningSquares = this.state.winningSquares.slice();
 		if (winner) {
 			winningSquares = winner.winningSquares;
+			winnerID = winner.winnerID;
 		}
 
 		// Set state
 		this.setState({
 			squares: squares,
 			winningSquares: winningSquares,
+			winnerID: winnerID,
 			turn: (this.state.turn == 'X') ? 'O' : 'X',
 		});
 	}
@@ -166,10 +172,8 @@ export default class Board extends React.Component {
 	 * @return {string} The title
 	 */
 	displayTitle() {
-		let winner = hasWinner(this.state.squares);
-
-		if (winner) {
-			return winner.winnerID + ' wins!';
+		if (this.state.winnerID) {
+			return this.state.winnerID + ' wins!';
 		}
 
 		if (this.state.squares.filter(item => item == null).length == 0) {
@@ -186,6 +190,7 @@ export default class Board extends React.Component {
 		this.setState({
 			squares: Array(9).fill(null),
 			winningSquares: Array(3).fill(null),
+			winnerID: null,
 			turn: 'X',
 		});
 	}
