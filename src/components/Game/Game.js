@@ -239,7 +239,6 @@ export default class Game extends React.Component {
 				<Col2>
 					<History
 						history={history}
-						current={current}
 						winningSquares={winningSquares}
 						winnerID={winnerID}
 						turn={turn}

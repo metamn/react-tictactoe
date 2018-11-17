@@ -46,7 +46,8 @@ export default class History extends React.Component {
 	 * Renders a history item.
 	 */
 	renderItem(i) {
-		const current = this.props.current;
+		const history = this.props.history;
+		const current = history[i];
 		const winningSquares = this.props.winningSquares;
 		const winnerID = this.props.winnerID;
 		const turn = this.props.turn;
