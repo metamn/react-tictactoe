@@ -14,7 +14,7 @@ const Container = styled.section`
 `;
 
 /**
- * The container title.
+ * The container title style.
  */
 const ContainerTitle = styled.h3`
 	display: ${props => props.hidden ? 'none' : 'flex'};
