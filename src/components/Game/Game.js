@@ -215,6 +215,8 @@ export default class Game extends React.Component {
 						winnerID={winnerID}
 						turn={turn}
 						handleClick={((i) => this.handleClick(i))}
+						isInteractive={true}
+						squareSize={'large'}
 					/>
 					<RestartButton onClick={() => this.restartGame()}>Restart game</RestartButton>
 				</Col1>

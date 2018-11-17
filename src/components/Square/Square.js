@@ -8,9 +8,11 @@ const Button = styled.button`
 	border: 1px solid #000;
 	border-right: 0;
 	border-bottom: 0;
-	padding: 1.25em;
-	width: 3.75em;
-	height: 3.75em;
+	padding: ${props => (props.size != 'small') ? '1.25em' : '0 .3125em'};
+	width: ${props => (props.size != 'small') ? '3.75em' : '1.25em'};
+	height: ${props => (props.size != 'small') ? '3.75em' : '1.25em'};
+	font-size: ${props => (props.size != 'small') ? 'normal' : 'smaller'};
+	font-weight: ${props => (props.size != 'small') ? 'bold' : 'normal'};
 `;
 
 export default class Square extends React.Component {
@@ -29,9 +31,14 @@ export default class Square extends React.Component {
 	}
 
 	render() {
+		const status = this.props.status;
+		const onClick = this.props.onClick;
+		const value = this.props.value;
+		const size = this.props.squareSize;
+
 		return (
-			<Button status={this.props.status} onClick={this.props.onClick}>
-				{this.display(this.props.value)}
+			<Button size={size} status={status} onClick={onClick}>
+				{this.display(value)}
 			</Button>
 		)
 	}

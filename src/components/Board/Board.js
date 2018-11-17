@@ -15,7 +15,9 @@ const SquaresContainer = styled.div`
 /**
  * The row style in the squares container.
  */
-const SquaresRow = styled.div``;
+const SquaresRow = styled.div`
+	display: flex;
+`;
 
 
 /**
@@ -31,13 +33,25 @@ export default class Board extends React.Component {
 	renderSquare(i) {
 		const squares = this.props.current.squares;
 		const winningSquares = this.props.winningSquares;
+		const isInteractive = this.props.isInteractive;
+		const squareSize = this.props.squareSize;
 
 		return (
-			<Square
-				value={squares[i]}
-				onClick={() => this.props.handleClick(i)}
-				status={(winningSquares.includes(i))}
-			/>
+			isInteractive ? (
+				<Square
+					value={squares[i]}
+					onClick={() => this.props.handleClick(i)}
+					status={(winningSquares.includes(i))}
+					squareSize={squareSize}
+				/>
+			) : (
+				<Square
+					value={squares[i]}
+					onClick={null}
+					status={(winningSquares.includes(i))}
+					squareSize={squareSize}
+				/>
+			)
 		);
 	}
 
