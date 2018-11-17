@@ -11,9 +11,28 @@ const Container = styled.section`
 	width: 100%;
 	min-height: 100vh;
 	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+`;
+
+/**
+ * The columns
+ */
+const Col1 = styled.div`
+	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	margin: 1.25em;
+`;
+
+const Col2 = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 1.25em;
 `;
 
 /**
@@ -185,19 +204,23 @@ export default class Game extends React.Component {
 
 		return (
 			<Container>
-				<ContainerTitle>Tic Tac Toe</ContainerTitle>
-				<StatusBar>
-					<StatusBarText>{this.displayTitle()}</StatusBarText>
-				</StatusBar>
-				<Board
-					current={current}
-					winningSquares={winningSquares}
-					winnerID={winnerID}
-					turn={turn}
-					handleClick={((i) => this.handleClick(i))}
-				/>
-				<RestartButton onClick={() => this.restartGame()}>Restart game</RestartButton>
-				<History history={history}/>
+				<Col1>
+					<ContainerTitle>Tic Tac Toe</ContainerTitle>
+					<StatusBar>
+						<StatusBarText>{this.displayTitle()}</StatusBarText>
+					</StatusBar>
+					<Board
+						current={current}
+						winningSquares={winningSquares}
+						winnerID={winnerID}
+						turn={turn}
+						handleClick={((i) => this.handleClick(i))}
+					/>
+					<RestartButton onClick={() => this.restartGame()}>Restart game</RestartButton>
+				</Col1>
+				<Col2>
+					<History history={history}/>
+				</Col2>
 			</Container>
 		);
 	}
