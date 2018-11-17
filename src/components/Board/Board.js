@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import Square from './../Square';
+import Repeat from './../../framework';
 
 /**
  * The container style.
@@ -43,23 +44,6 @@ const Button = styled.button`
 	background: white;
 	border: 1px solid;
 `;
-
-
-/**
- * Imitates the for loop inside JSX
- * - https://reactjs.org/docs/jsx-in-depth.html
- */
- function Repeat(props) {
- 	let ret = [];
- 	let startAt = props.startAt;
- 	let endAt = startAt + props.numberOfTimes;
-
- 	for (let i = startAt; i < endAt; i++) {
- 		ret.push(props.children(i));
- 	}
-
- 	return ret;
-}
 
 /**
  * Defines which lines are a winning combination.
