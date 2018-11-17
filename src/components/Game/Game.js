@@ -111,6 +111,7 @@ export default class Game extends React.Component {
 			history: [{
 				squares: Array(9).fill(null),
 			}],
+			stepNumber: 0,
 			winningSquares: Array(3).fill(null),
 			winnerID: null,
 			turn: 'X',
@@ -123,7 +124,7 @@ export default class Game extends React.Component {
 	 * @param  {integer} i The ID of the square
 	 */
 	handleClick(i) {
-		const history = this.state.history;
+		const history = this.state.history.slice(0, this.state.stepNumber + 1);
 		const current = history[history.length - 1];
 		const squares = current.squares.slice();
 		const turn = this.state.turn;
@@ -151,6 +152,7 @@ export default class Game extends React.Component {
 			history: history.concat([{
         		squares: squares,
       		}]),
+			stepNumber: history.length,
 			winningSquares: winningSquares,
 			winnerID: winnerID,
 			turn: (turn == 'X') ? 'O' : 'X',
@@ -164,7 +166,7 @@ export default class Game extends React.Component {
 	 */
 	displayTitle() {
 		const history = this.state.history;
-		const current = history[history.length - 1];
+		const current = history[this.state.stepNumber];
 		const squares = current.squares;
 		const winnerID = this.state.winnerID;
 		const turn = this.state.turn;
@@ -195,9 +197,22 @@ export default class Game extends React.Component {
 		});
 	}
 
+	/**
+	 * Jumps to a step in the history.
+	 *
+	 * @param  {integer} step The step number
+	 * @return void
+	 */
+	jumpTo(step) {
+		this.setState({
+			stepNumber: step,
+			xIsNext: ((step % 2) === 0) ? 'X' : '0',
+		});
+	}
+
 	render() {
 		const history = this.state.history;
-		const current = history[history.length - 1];
+		const current = history[this.state.stepNumber];
 		const winningSquares = this.state.winningSquares;
 		const winnerID = this.state.winnerID;
 		const turn = this.state.turn;
@@ -221,7 +236,7 @@ export default class Game extends React.Component {
 					<RestartButton onClick={() => this.restartGame()}>Restart game</RestartButton>
 				</Col1>
 				<Col2>
-					<History history={history}/>
+					<History history={history} jumpTo={((i) => this.jumpTo(i))}/>
 				</Col2>
 			</Container>
 		);

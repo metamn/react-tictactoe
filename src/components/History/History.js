@@ -23,13 +23,18 @@ const ContainerTitle = styled.h3`
 /**
  * The item list style.
  */
-const Items = styled.ol``;
+const Items = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	width: 15em;
+`;
 
 /**
  * The item style.
  */
-const Item = styled.li`
+const Item = styled.div`
 	margin-bottom: 1.25em;
+	margin-right: 1.25em;
 `;
 
 
@@ -40,12 +45,12 @@ export default class History extends React.Component {
 	/**
 	 * Renders a history item.
 	 */
-	renderItem(i, history) {
+	renderItem(i, history, jumpTo) {
 		const current = history[i-1];
 		const winningSquares = Array(3).fill(null);
 
 		return (
-			<Item>
+			<Item key={i} onClick={(i) => jumpTo(i)}>
 				<Board
 					current={current}
 					winningSquares={winningSquares}
@@ -61,13 +66,14 @@ export default class History extends React.Component {
 
 	render() {
 		const history = this.props.history;
+		const jumpTo = this.props.jumpTo;
 
 		return (
 			<Container>
 				<ContainerTitle>Game history</ContainerTitle>
 				<Items>
 					<Repeat numberOfTimes={history.length} startAt={1}>
-						{(i) => this.renderItem(i, history)}
+						{(i) => this.renderItem(i, history, jumpTo)}
 					</Repeat>
 				</Items>
 			</Container>

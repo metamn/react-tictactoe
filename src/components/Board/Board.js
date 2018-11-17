@@ -39,6 +39,7 @@ export default class Board extends React.Component {
 		return (
 			isInteractive ? (
 				<Square
+					key={i}
 					value={squares[i]}
 					onClick={() => this.props.handleClick(i)}
 					status={(winningSquares.includes(i))}
@@ -46,6 +47,7 @@ export default class Board extends React.Component {
 				/>
 			) : (
 				<Square
+					key={i}
 					value={squares[i]}
 					onClick={null}
 					status={(winningSquares.includes(i))}
@@ -60,7 +62,7 @@ export default class Board extends React.Component {
 			<SquaresContainer>
 				<Repeat numberOfTimes={3} startAt={0}>
 					{(i) =>
-						<SquaresRow>
+						<SquaresRow key={i}>
 							<Repeat numberOfTimes={3} startAt={i * 3}>
 								{(j) => this.renderSquare(j) }
 							</Repeat>
