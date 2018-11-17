@@ -1,3 +1,5 @@
+![Screenshot](https://imgur.com/a/4NWuTQm)
+
 ## React Tic Tac Toe
 
 The first step in learning React.
