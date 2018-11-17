@@ -207,7 +207,9 @@ export default class Game extends React.Component {
 	jumpTo(step) {
 		this.setState({
 			stepNumber: step,
-			turn: ((step % 2) === 0) ? 'X' : '0',
+			winningSquares: Array(3).fill(null),
+			winnerID: null,
+			turn: ((step % 2) === 0) ? 'X' : 'O',
 		});
 	}
 
