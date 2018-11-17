@@ -45,20 +45,24 @@ export default class History extends React.Component {
 	/**
 	 * Renders a history item.
 	 */
-	renderItem(i, history, jumpTo) {
-		const current = history[i-1];
-		const winningSquares = Array(3).fill(null);
+	renderItem(i) {
+		const current = this.props.current;
+		const winningSquares = this.props.winningSquares;
+		const winnerID = this.props.winnerID;
+		const turn = this.props.turn;
+		const isInteractive = this.props.isInteractive;
+		const squareSize = this.props.squareSize;
 
 		return (
-			<Item key={i} onClick={(i) => jumpTo(i)}>
+			<Item key={i} onClick={() => this.props.jumpTo(i)}>
 				<Board
 					current={current}
 					winningSquares={winningSquares}
-					winnerID={null}
-					turn={null}
+					winnerID={winnerID}
+					turn={turn}
 					handleClick={null}
-					isInteractive={false}
-					squareSize={'small'}
+					isInteractive={isInteractive}
+					squareSize={squareSize}
 				/>
 			</Item>
 		);
@@ -66,14 +70,13 @@ export default class History extends React.Component {
 
 	render() {
 		const history = this.props.history;
-		const jumpTo = this.props.jumpTo;
 
 		return (
 			<Container>
 				<ContainerTitle>Game history</ContainerTitle>
 				<Items>
-					<Repeat numberOfTimes={history.length} startAt={1}>
-						{(i) => this.renderItem(i, history, jumpTo)}
+					<Repeat numberOfTimes={history.length} startAt={0}>
+						{(i) => this.renderItem(i)}
 					</Repeat>
 				</Items>
 			</Container>

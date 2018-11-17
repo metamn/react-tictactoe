@@ -166,7 +166,7 @@ export default class Game extends React.Component {
 	 */
 	displayTitle() {
 		const history = this.state.history;
-		const current = history[this.state.stepNumber];
+		const current = history[history.length -1];
 		const squares = current.squares;
 		const winnerID = this.state.winnerID;
 		const turn = this.state.turn;
@@ -191,6 +191,7 @@ export default class Game extends React.Component {
 			history: [{
 				squares: Array(9).fill(null),
 			}],
+			stepNumber: 0,
 			winningSquares: Array(3).fill(null),
 			winnerID: null,
 			turn: 'X',
@@ -206,7 +207,7 @@ export default class Game extends React.Component {
 	jumpTo(step) {
 		this.setState({
 			stepNumber: step,
-			xIsNext: ((step % 2) === 0) ? 'X' : '0',
+			turn: ((step % 2) === 0) ? 'X' : '0',
 		});
 	}
 
@@ -236,7 +237,16 @@ export default class Game extends React.Component {
 					<RestartButton onClick={() => this.restartGame()}>Restart game</RestartButton>
 				</Col1>
 				<Col2>
-					<History history={history} jumpTo={((i) => this.jumpTo(i))}/>
+					<History
+						history={history}
+						current={current}
+						winningSquares={winningSquares}
+						winnerID={winnerID}
+						turn={turn}
+						jumpTo={((i) => this.jumpTo(i))}
+						isInteractive={false}
+						squareSize={'small'}
+					/>
 				</Col2>
 			</Container>
 		);
