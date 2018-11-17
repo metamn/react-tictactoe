@@ -70,13 +70,13 @@ export default class History extends React.Component {
 	}
 
 	render() {
-		const history = this.props.history;
+		const stepNumber = this.props.stepNumber;
 
 		return (
 			<Container>
 				<ContainerTitle>Game history</ContainerTitle>
 				<Items>
-					<Repeat numberOfTimes={history.length} startAt={0}>
+					<Repeat numberOfTimes={stepNumber} startAt={1}>
 						{(i) => this.renderItem(i)}
 					</Repeat>
 				</Items>

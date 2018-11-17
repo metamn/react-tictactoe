@@ -213,7 +213,8 @@ export default class Game extends React.Component {
 
 	render() {
 		const history = this.state.history;
-		const current = history[this.state.stepNumber];
+		const stepNumber = this.state.stepNumber
+		const current = history[stepNumber];
 		const winningSquares = this.state.winningSquares;
 		const winnerID = this.state.winnerID;
 		const turn = this.state.turn;
@@ -239,6 +240,7 @@ export default class Game extends React.Component {
 				<Col2>
 					<History
 						history={history}
+						stepNumber={stepNumber}
 						winningSquares={winningSquares}
 						winnerID={winnerID}
 						turn={turn}
