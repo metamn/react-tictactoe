@@ -1,4 +1,4 @@
-![Screenshot](https://imgur.com/a/4NWuTQm)
+![Screenshot](Screenshot.png)
 
 ## React Tic Tac Toe
 
