@@ -11,6 +11,7 @@ const Container = styled.section`
 	width: 100%;
 	min-height: 100vh;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 `;
@@ -19,6 +20,28 @@ const Container = styled.section`
  * The container title style
  */
 const ContainerTitle = styled.h1``;
+
+/**
+ * The status bar style
+ */
+const StatusBar = styled.aside``;
+
+/**
+ * The status bar title style
+ */
+const StatusBarText = styled.h3``;
+
+/**
+ * The restart button style.
+ */
+const RestartButton = styled.button`
+	margin: 1.25em 0;
+	padding: .625em;
+	cursor: pointer;
+	background: white;
+	border: 1px solid;
+`;
+
 
 
 /**
@@ -106,10 +129,50 @@ export default class Game extends React.Component {
 
 		// Set state
 		this.setState({
-			squares: squares,
+			history: history.concat([{
+        		squares: squares,
+      		}]),
 			winningSquares: winningSquares,
 			winnerID: winnerID,
 			turn: (turn == 'X') ? 'O' : 'X',
+		});
+	}
+
+	/**
+	 * Displays the component title.
+	 *
+	 * @return {string} The title
+	 */
+	displayTitle() {
+		const history = this.state.history;
+		const current = history[history.length - 1];
+		const squares = current.squares;
+		const winnerID = this.state.winnerID;
+		const turn = this.state.turn;
+
+		if (winnerID) {
+			return winnerID + ' wins!';
+		}
+
+		if (squares.filter(item => item == null).length == 0) {
+			return 'No more moves';
+		}
+
+		return 'Next turn: ' + turn;
+	}
+
+	/**
+	 * Restarts the game.
+	 * @return void
+	 */
+	restartGame() {
+		this.setState({
+			history: [{
+				squares: Array(9).fill(null),
+			}],
+			winningSquares: Array(3).fill(null),
+			winnerID: null,
+			turn: 'X',
 		});
 	}
 
@@ -123,6 +186,9 @@ export default class Game extends React.Component {
 		return (
 			<Container>
 				<ContainerTitle>Tic Tac Toe</ContainerTitle>
+				<StatusBar>
+					<StatusBarText>{this.displayTitle()}</StatusBarText>
+				</StatusBar>
 				<Board
 					current={current}
 					winningSquares={winningSquares}
@@ -130,6 +196,7 @@ export default class Game extends React.Component {
 					turn={turn}
 					handleClick={((i) => this.handleClick(i))}
 				/>
+				<RestartButton onClick={() => this.restartGame()}>Restart game</RestartButton>
 				<History history={history}/>
 			</Container>
 		);

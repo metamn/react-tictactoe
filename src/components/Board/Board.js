@@ -5,24 +5,6 @@ import Square from './../Square';
 import Repeat from './../../framework';
 
 /**
- * The container style.
- */
-const Container = styled.section`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	alig-items: center;
-`;
-
-/**
- * The container title style.
- */
-const ContainerTitle = styled.h3`
-	display: ${props => props.hidden ? 'none' : 'flex'};
-	align-self: center;
-`;
-
-/**
  * The squares container style.
  */
 const SquaresContainer = styled.div`
@@ -35,15 +17,6 @@ const SquaresContainer = styled.div`
  */
 const SquaresRow = styled.div``;
 
-/**
- * The restart button style.
- */
-const Button = styled.button`
-	margin: 1.25em 0;
-	padding: .625em 0;
-	background: white;
-	border: 1px solid;
-`;
 
 /**
  * The main class
@@ -68,44 +41,19 @@ export default class Board extends React.Component {
 		);
 	}
 
-	/**
-	 * Displays the component title.
-	 *
-	 * @return {string} The title
-	 */
-	displayTitle() {
-		const winnerID = this.props.winnerID;
-		const squares = this.props.current.squares;
-		const turn = this.props.turn;
-
-		if (winnerID) {
-			return winnerID + ' wins!';
-		}
-
-		if (squares.filter(item => item == null).length == 0) {
-			return 'No more moves';
-		}
-
-		return 'Next turn: ' + turn;
-	}
-
 	render() {
 		return (
-			<Container>
-				<ContainerTitle>{this.displayTitle()}</ContainerTitle>
-				<SquaresContainer>
-					<Repeat numberOfTimes={3} startAt={0}>
-						{(i) =>
-							<SquaresRow>
-								<Repeat numberOfTimes={3} startAt={i * 3}>
-									{(j) => this.renderSquare(j) }
-								</Repeat>
-							</SquaresRow>
-						}
-					</Repeat>
-				</SquaresContainer>
-				<Button>Restart</Button>
-			</Container>
+			<SquaresContainer>
+				<Repeat numberOfTimes={3} startAt={0}>
+					{(i) =>
+						<SquaresRow>
+							<Repeat numberOfTimes={3} startAt={i * 3}>
+								{(j) => this.renderSquare(j) }
+							</Repeat>
+						</SquaresRow>
+					}
+				</Repeat>
+			</SquaresContainer>
 		)
 	};
 }
